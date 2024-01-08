@@ -6,7 +6,7 @@ from llama_index import SimpleDirectoryReader
 
 st.set_page_config(page_title="Personalized Chat with Philly AI Connect", page_icon="💬", layout="centered", initial_sidebar_state="auto", menu_items=None)
 openai.api_key = st.secrets.openai_key 
-st.title("Personalized Chat with Client Documents")
+st.title("Personalized Chat with Philly AI Connect")
 st.info("This is a pilot project to test out Retrieval Augmented Generation (RAG) with LLamaIndex and GPT 3.5", icon="📃")
          
 if "messages" not in st.session_state.keys(): # Initialize the chat messages history
