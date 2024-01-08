@@ -4,14 +4,14 @@ from llama_index.llms import OpenAI
 import openai
 from llama_index import SimpleDirectoryReader
 
-st.set_page_config(page_title="Chat with the Streamlit docs, powered by LlamaIndex", page_icon="🦙", layout="centered", initial_sidebar_state="auto", menu_items=None)
-openai.api_key = st.secrets.openai_key
-st.title("Chat with the Streamlit docs, powered by LlamaIndex 💬🦙")
-st.info("Check out the full tutorial to build this app in our [blog post](https://blog.streamlit.io/build-a-chatbot-with-custom-data-sources-powered-by-llamaindex/)", icon="📃")
+st.set_page_config(page_title="Personalized Chat with Client Documents", page_icon="💬", layout="centered", initial_sidebar_state="auto", menu_items=None)
+openai.api_key = st.secrets.openai_key 
+st.title("Personalized Chat with Client Documents")
+st.info("This is a pilot project to test out Retrieval Augmented Generation (RAG) with LLamaIndex and GPT 3.5", icon="📃")
          
 if "messages" not in st.session_state.keys(): # Initialize the chat messages history
     st.session_state.messages = [
-        {"role": "assistant", "content": "Ask me a question about Streamlit's open-source Python library!"}
+        {"role": "assistant", "content": "Ask me a question about <insert Client Name>!"}
     ]
 
 @st.cache_resource(show_spinner=False)
@@ -19,7 +19,11 @@ def load_data():
     with st.spinner(text="Loading and indexing the Streamlit docs – hang tight! This should take 1-2 minutes."):
         reader = SimpleDirectoryReader(input_dir="./data", recursive=True)
         docs = reader.load_data()
-        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-3.5-turbo", temperature=0.5, system_prompt="You are an expert on the Streamlit Python library and your job is to answer technical questions. Assume that all questions are related to the Streamlit Python library. Keep your answers technical and based on facts – do not hallucinate features."))
+        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-3.5-turbo", temperature=0.5, system_prompt="You are a PDF file expert that combines the knowledge contained "
+    "in a PDF with all of your other training data. It is your job "
+    "to help the user consume the content of that PDF through questions "
+    "and understanding it deeply through providing real-life examples "
+    "and references to relevant other literature and content.  Keep your answers technical and based on facts – do not hallucinate features."))
         index = VectorStoreIndex.from_documents(docs, service_context=service_context)
         return index
 
