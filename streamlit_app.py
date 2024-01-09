@@ -29,8 +29,8 @@ def check_password():
     return False
 
 
-if not check_password():
-    st.stop() 
+# if not check_password():
+#     st.stop() 
 st.set_page_config(page_title="Personalized Chat with Philly AI Connect", page_icon="💬", layout="centered", initial_sidebar_state="auto", menu_items=None)
 openai.api_key = st.secrets.openai_key 
 st.title("Personalized Chat with Philly AI Connect")
